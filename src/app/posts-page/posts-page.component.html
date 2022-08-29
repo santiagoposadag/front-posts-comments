@@ -1,1 +1,17 @@
-<p>posts-page works!</p>
+<h2>Add a new topic to talk: </h2>
+<div>
+  <label for="title">title </label>
+  <input id="tile" [(ngModel)]="newTitle" placeholder="Title">
+</div>
+<div>
+  <label for="author">Authro </label>
+  <input id="author" [(ngModel)]="newAuthor" placeholder="Author">
+</div>
+<button (click)="createPost()">Post it!</button>
+<li *ngFor="let post of posts">
+  <div class="post_card_container">
+    <h3>AggregateID: {{post.aggregateId}}</h3>
+    <p>Title: {{post.title}}</p>
+    <p>Athor: {{post.author}}</p>
+  </div>
+</li>
