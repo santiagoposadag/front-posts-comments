@@ -1,3 +1,4 @@
+import { SocketService } from './../services/socket/socket.service';
 import { CreatePostCommand } from './../models/command.models';
 import { PostView } from './../models/views.models';
 import { RequestsService } from './../services/requests/requests.service';
@@ -14,17 +15,19 @@ export class PostsPageComponent implements OnInit {
   newTitle:string='';
   newAuthor:string='';
 
-  constructor(private requests:RequestsService) { }
+  constructor(private requests:RequestsService, 
+    private socket:SocketService
+    ) { }
 
   ngOnInit(): void {
     this.getPosts()
+    // this.connectToMainSpace()
   }
 
   getPosts(){
     this.requests.getPosts().subscribe(
       payLoad =>{
         this.posts =payLoad
-        console.log(this.posts);
         
       } 
     );
@@ -41,7 +44,19 @@ export class PostsPageComponent implements OnInit {
 
   submitPost(command:CreatePostCommand){
     this.requests.createPost(command)
-    .subscribe(response => console.log(response)
-    )
+    .subscribe()
+  }
+
+  connectToMainSpace(){
+    this.socket.connetToGeneralSpace().subscribe((message) => {
+      this.addPost(message)
+      
+    })
+  }
+
+  addPost(post:PostView){
+    this.newAuthor = ''
+    this.newTitle = ''
+    this.posts.push(post)
   }
 }
