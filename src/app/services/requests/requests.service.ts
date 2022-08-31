@@ -1,4 +1,4 @@
-import { CreatePostCommand } from './../../models/command.models';
+import { CreatePostCommand, AddCommentCommand } from './../../models/command.models';
 import { PostView } from './../../models/views.models';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -10,7 +10,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 })
 export class RequestsService {
   GET_ALL_POSTS_URL = 'http://localhost:8081/bring/all/posts'
-  GET_POST_BY_ID_URL = 'http://localhost:8081/bring/all/posts'
+  GET_POST_BY_ID_URL = 'http://localhost:8081/bring/post/'
   POST_POST_URL = 'http://localhost:8080/create/post'
   POST_COMMENT_URL = 'http://localhost:8080/add/comment'
 
@@ -27,8 +27,20 @@ export class RequestsService {
     );
   }
 
+  getPostsById(id:string|null){
+    return this.http.get<PostView>(`${this.GET_POST_BY_ID_URL}${id}`).pipe(
+      catchError(this.handleError<PostView>('getPosts'))
+    );
+  }
+
   createPost(command:CreatePostCommand){
     return this.http.post<any>(this.POST_POST_URL, command, this.httpOptions).pipe(
+      catchError(this.handleError<any>('createPost'))
+    );
+  }
+
+  createComment(command:AddCommentCommand){
+    return this.http.post<any>(this.POST_COMMENT_URL, command, this.httpOptions).pipe(
       catchError(this.handleError<any>('createPost'))
     );
   }

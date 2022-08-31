@@ -4,7 +4,7 @@ export type CreatePostCommand = {
   title:string
 }
 
-export type CddCommentCommand = {
+export type AddCommentCommand = {
   commentId:string,
   postId:string,
   author:string,

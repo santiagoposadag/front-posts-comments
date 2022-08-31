@@ -1,3 +1,4 @@
+import { WebSocketSubject } from 'rxjs/webSocket';
 import { SocketService } from './../services/socket/socket.service';
 import { CreatePostCommand } from './../models/command.models';
 import { PostView } from './../models/views.models';
@@ -10,8 +11,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./posts-page.component.css']
 })
 export class PostsPageComponent implements OnInit {
+  
+  socketManager?:WebSocketSubject<PostView>;
+  
   posts:PostView[]=[]
-
   newTitle:string='';
   newAuthor:string='';
 
@@ -21,7 +24,7 @@ export class PostsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPosts()
-    // this.connectToMainSpace()
+    this.connectToMainSpace()
   }
 
   getPosts(){
@@ -48,7 +51,8 @@ export class PostsPageComponent implements OnInit {
   }
 
   connectToMainSpace(){
-    this.socket.connetToGeneralSpace().subscribe((message) => {
+    this.socketManager = this.socket.connetToGeneralSpace()
+    this.socketManager.subscribe((message) => {
       this.addPost(message)
       
     })
@@ -58,5 +62,9 @@ export class PostsPageComponent implements OnInit {
     this.newAuthor = ''
     this.newTitle = ''
     this.posts.push(post)
+  }
+
+  closeSocketConnection(){
+    this.socketManager?.complete()
   }
 }

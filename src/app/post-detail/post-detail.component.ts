@@ -1,3 +1,4 @@
+import { AddCommentCommand } from './../models/command.models';
 import { Observable } from 'rxjs';
 import { SocketService } from './../services/socket/socket.service';
 import { PostView, CommentView } from './../models/views.models';
@@ -34,9 +35,8 @@ export class PostDetailComponent implements OnInit {
 
   getPost(){
     const id:string|null= this.route.snapshot.paramMap.get('id')
-    this.request.getPosts().subscribe(
-      posts => {
-        const foundPost = posts.find(post => post.aggregateId === id)
+    this.request.getPostsById(id).subscribe(
+      foundPost => {
         this.post = foundPost
         console.log(this.post);
         this.connectToChannel(this.post?this.post.aggregateId:'mainSpace')
@@ -47,6 +47,18 @@ export class PostDetailComponent implements OnInit {
   connectToChannel(path:string){
     this.socket = this.socketService.connetToSpecificSpace(path)
     this.socket.subscribe( message => this.addComment(message))
+  }
+  createComment(){
+    const command:AddCommentCommand = {
+      commentId: (Math.random() * (10000000 - 100000) + 100000).toString(),
+      postId: this.post?.aggregateId?this.post?.aggregateId:'',
+      author: this.newAuthor,
+      content:  this.newContent
+    }
+
+    this.request.createComment(command).subscribe()
+    this.newAuthor = ''
+    this.newContent = ''
   }
 
   addComment(newComment:CommentView){

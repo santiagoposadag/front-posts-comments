@@ -1,2 +1,18 @@
-<p>post-detail works!</p>
 <button type="button" (click)="goBack()">go back</button>
+<div *ngIf="post" class="singlePostContainer">
+  <h2>Topic of discusion: {{post.title | uppercase}}</h2>
+  <p>Author: {{post.author}}</p>
+  <div *ngFor="let comment of post.comments" class="singleCommentContainer">
+    <h3>Comment Author: {{comment.author}}</h3>
+    <p>{{comment.content}}</p>
+  </div>
+</div>
+<div>
+  <label for="author">Authro </label>
+  <input id="author" [(ngModel)]="newAuthor" placeholder="Author"><br />
+  <label for="content">Content </label>
+  <textarea id="content" [(ngModel)]="newContent" placeholder="Content" >
+  </textarea>
+</div>
+<button (click)="createComment()">Send!</button>
+
