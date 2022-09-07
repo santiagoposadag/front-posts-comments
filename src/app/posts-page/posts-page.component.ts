@@ -54,14 +54,13 @@ export class PostsPageComponent implements OnInit {
     this.socketManager = this.socket.connetToGeneralSpace()
     this.socketManager.subscribe((message) => {
       this.addPost(message)
-      
     })
   }
 
   addPost(post:PostView){
     this.newAuthor = ''
     this.newTitle = ''
-    this.posts.push(post)
+    this.posts.unshift(post)
   }
 
   closeSocketConnection(){

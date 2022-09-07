@@ -62,7 +62,7 @@ export class PostDetailComponent implements OnInit {
   }
 
   addComment(newComment:CommentView){
-    this.post?.comments.push(newComment)
+    this.post?.comments.unshift(newComment)
   }
 
   goBack(): void {
