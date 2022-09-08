@@ -9,6 +9,7 @@ import { webSocket, WebSocketSubject  } from 'rxjs/webSocket'
 export class SocketService {
 
   constructor() { }
+  
   connetToGeneralSpace():WebSocketSubject<PostView>{
     return webSocket('ws://localhost:8082/retrieve/mainSpace');
   }

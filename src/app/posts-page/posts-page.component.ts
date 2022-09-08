@@ -1,7 +1,7 @@
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { SocketService } from './../services/socket/socket.service';
 import { CreatePostCommand } from './../models/command.models';
-import { PostView } from './../models/views.models';
+import { PostView, CommentView } from './../models/views.models';
 import { RequestsService } from './../services/requests/requests.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -13,10 +13,12 @@ import { Component, OnInit } from '@angular/core';
 export class PostsPageComponent implements OnInit {
   
   socketManager?:WebSocketSubject<PostView>;
+  socketManagerPreview?:WebSocketSubject<CommentView>;
   
   posts:PostView[]=[]
   newTitle:string='';
   newAuthor:string='';
+  postPreview?:PostView;
 
   constructor(private requests:RequestsService, 
     private socket:SocketService
@@ -61,6 +63,18 @@ export class PostsPageComponent implements OnInit {
     this.newAuthor = ''
     this.newTitle = ''
     this.posts.unshift(post)
+  }
+
+  openPreview(post:PostView){
+    if(this.socketManagerPreview !== null){
+      this.socketManagerPreview?.complete()
+    }
+    this.requests.getPostsById(post.aggregateId)
+    .subscribe(post => this.postPreview = post);
+    this.socketManagerPreview = this.socket.connetToSpecificSpace(post.aggregateId)
+    this.socketManagerPreview.subscribe(comment => {
+      this.postPreview?.comments.push(comment)
+    })
   }
 
   closeSocketConnection(){

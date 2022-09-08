@@ -14,6 +14,13 @@
       </div>
 
       <a (click) = "closeSocketConnection()" routerLink="/post/{{post.aggregateId}}">Go inside!</a>
+      <button (click)="openPreview(post)">Preview</button>
+    </div>
+  </div>
+  <div *ngIf="postPreview" class="post-preview-container">
+    <h2>{{postPreview.title}}</h2>
+    <div *ngFor="let comment of postPreview.comments" class="comments-container">
+      <li>{{comment.content}}</li>
     </div>
   </div> 
 
