@@ -7,12 +7,14 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { PostsPageComponent } from './posts-page/posts-page.component';
 import { PostDetailComponent } from './post-detail/post-detail.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PostsPageComponent,
-    PostDetailComponent
+    PostDetailComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
