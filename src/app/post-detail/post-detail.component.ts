@@ -1,10 +1,11 @@
+import { StateService } from './../services/state/state.service';
 import { AddCommentCommand } from './../models/command.models';
 import { Observable } from 'rxjs';
 import { SocketService } from './../services/socket/socket.service';
 import { PostView, CommentView } from './../models/views.models';
 import { Component, OnInit } from '@angular/core';
 
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { RequestsService } from '../services/requests/requests.service'; 
@@ -26,11 +27,29 @@ export class PostDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private request:RequestsService,
     private location: Location,
-    private socketService:SocketService
+    private socketService:SocketService,
+    private state:StateService,
+    private router:Router
   ) { }
 
   ngOnInit(): void {
-    this.getPost()
+    if(this.validateLogin()){
+      this.getPost()
+    }  
+    
+  }
+
+  validateLogin():boolean{
+    let validationResult = false;
+    this.state.state.subscribe(currentState => {
+      if(!currentState.logedIn){
+        this.router.navigateByUrl('/login')
+        validationResult = false
+        return
+      }
+      validationResult =  true
+    })
+    return validationResult;
   }
 
   getPost(){

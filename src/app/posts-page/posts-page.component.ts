@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { StateService } from './../services/state/state.service';
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { SocketService } from './../services/socket/socket.service';
 import { CreatePostCommand } from './../models/command.models';
@@ -19,12 +21,28 @@ export class PostsPageComponent implements OnInit {
   newAuthor:string='';
 
   constructor(private requests:RequestsService, 
-    private socket:SocketService
+    private socket:SocketService, private state:StateService,
+    private router:Router
     ) { }
 
   ngOnInit(): void {
-    this.getPosts()
-    this.connectToMainSpace()
+    if(this.validateLogin()){
+      this.getPosts()
+      this.connectToMainSpace()
+    }   
+  }
+
+  validateLogin():boolean{
+    let validationResult = false;
+    this.state.state.subscribe(currentState => {
+      if(!currentState.logedIn){
+        this.router.navigateByUrl('/login')
+        validationResult = false
+        return
+      }
+      validationResult =  true
+    })
+    return validationResult;
   }
 
   getPosts(){

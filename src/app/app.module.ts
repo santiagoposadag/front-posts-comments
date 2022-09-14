@@ -1,3 +1,6 @@
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { environment } from './../environments/environment.prod';
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -20,7 +23,9 @@ import { LoginComponent } from './login/login.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    provideFirebaseApp(()=> initializeApp(environment.firebase)),
+    provideAuth(() => getAuth())
   ],
   providers: [],
   bootstrap: [AppComponent]

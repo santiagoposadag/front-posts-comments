@@ -8,12 +8,18 @@ import { webSocket, WebSocketSubject  } from 'rxjs/webSocket'
 })
 export class SocketService {
 
+  // GENERAL_SOCKET:string = 'WSS://gama-posts-comments.herokuapp.com/retrieve/mainSpace'
+  // SPECIFIC_SOCKET:string = "WSS://gama-posts-comments.herokuapp.com/retrieve/";
+
+  GENERAL_SOCKET:string = 'ws://localhost:8082/retrieve/mainSpace'
+  SPECIFIC_SOCKET:string = "ws://localhost:8082/retrieve/";
+
   constructor() { }
   connetToGeneralSpace():WebSocketSubject<PostView>{
-    return webSocket('WSS://gama-posts-comments.herokuapp.com/retrieve/mainSpace');
+    return webSocket(this.GENERAL_SOCKET);
   }
   connetToSpecificSpace(post:string):WebSocketSubject<CommentView>{
-    return webSocket(`WSS://gama-posts-comments.herokuapp.com/retrieve/${post}`);
+    return webSocket(`${this.SPECIFIC_SOCKET}${post}`);
   }
 
 }
