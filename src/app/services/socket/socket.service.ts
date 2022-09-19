@@ -8,11 +8,11 @@ import { webSocket, WebSocketSubject  } from 'rxjs/webSocket'
 })
 export class SocketService {
 
-  // GENERAL_SOCKET:string = 'WSS://gama-posts-comments.herokuapp.com/retrieve/mainSpace'
-  // SPECIFIC_SOCKET:string = "WSS://gama-posts-comments.herokuapp.com/retrieve/";
+  GENERAL_SOCKET:string = 'WSS://gama-posts-comments.herokuapp.com/retrieve/mainSpace'
+  SPECIFIC_SOCKET:string = "WSS://gama-posts-comments.herokuapp.com/retrieve/";
 
-  GENERAL_SOCKET:string = 'ws://localhost:8082/retrieve/mainSpace'
-  SPECIFIC_SOCKET:string = "ws://localhost:8082/retrieve/";
+  // GENERAL_SOCKET:string = 'ws://localhost:8082/retrieve/mainSpace'
+  // SPECIFIC_SOCKET:string = "ws://localhost:8082/retrieve/";
 
   constructor() { }
   connetToGeneralSpace():WebSocketSubject<PostView>{

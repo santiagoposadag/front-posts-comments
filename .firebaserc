@@ -1,14 +1,5 @@
 {
   "projects": {
     "default": "posts-comments-d761a"
-  },
-  "targets": {
-    "posts-comments-d761a": {
-      "hosting": {
-        "front-posts-comments": [
-          "posts-comments-d761a"
-        ]
-      }
-    }
   }
 }

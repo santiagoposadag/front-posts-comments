@@ -9,17 +9,23 @@ import { catchError, map, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class RequestsService {
-  // GET_ALL_POSTS_URL = 'https://beta-posts-comments.herokuapp.com/bring/all/posts'
-  // GET_POST_BY_ID_URL = 'https://beta-posts-comments.herokuapp.com/bring/post/'
-  // POST_POST_URL = 'https://alpha-posts-comments.herokuapp.com/create/post'
-  // POST_COMMENT_URL = 'https://alpha-posts-comments.herokuapp.com/add/comment'
-  GET_ALL_POSTS_URL = 'http://localhost:8081/bring/all/posts'
-  GET_POST_BY_ID_URL = 'http://localhost:8081/bring/post/'
-  POST_POST_URL = 'http://localhost:8080/create/post'
-  POST_COMMENT_URL = 'http://localhost:8080/add/comment'
+  GET_ALL_POSTS_URL = 'https://beta-posts-comments.herokuapp.com/bring/all/posts'
+  GET_POST_BY_ID_URL = 'https://beta-posts-comments.herokuapp.com/bring/post/'
+  POST_POST_URL = 'https://alpha-posts-comments.herokuapp.com/create/post'
+  POST_COMMENT_URL = 'https://alpha-posts-comments.herokuapp.com/add/comment'
+  LOGIN_URL='https://alpha-posts-comments.herokuapp.com/auth/login'
+  
+  // GET_ALL_POSTS_URL = 'http://localhost:8081/bring/all/posts'
+  // GET_POST_BY_ID_URL = 'http://localhost:8081/bring/post/'
+  // POST_POST_URL = 'http://localhost:8080/create/post'
+  // POST_COMMENT_URL = 'http://localhost:8080/add/comment'
+  // LOGIN_URL='http://localhost:8080/auth/login'
+
+  
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({ 'Content-Type': 'application/json',
+   })
   };
   
 
@@ -37,8 +43,12 @@ export class RequestsService {
     );
   }
 
-  createPost(command:CreatePostCommand){
-    return this.http.post<any>(this.POST_POST_URL, command, this.httpOptions).pipe(
+  createPost(command:CreatePostCommand, token:string){
+    return this.http.post<any>(this.POST_POST_URL, command, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+       })
+    }).pipe(
       catchError(this.handleError<any>('createPost'))
     );
   }
@@ -46,6 +56,12 @@ export class RequestsService {
   createComment(command:AddCommentCommand){
     return this.http.post<any>(this.POST_COMMENT_URL, command, this.httpOptions).pipe(
       catchError(this.handleError<any>('createPost'))
+    );
+  }
+
+  loginMethod(command:any){
+    return this.http.post<any>(this.LOGIN_URL, command, this.httpOptions).pipe(
+      catchError(this.handleError<any>('login'))
     );
   }
 

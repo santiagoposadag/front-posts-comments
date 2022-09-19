@@ -5,10 +5,14 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class StateService {
+  
   initialState = {
     logedIn: false,
-    authenticatedPerson:{}
+    authenticatedPerson:{
+    },
+    token: ''
   }
+
   state = new BehaviorSubject(this.initialState);
 
   constructor() { }

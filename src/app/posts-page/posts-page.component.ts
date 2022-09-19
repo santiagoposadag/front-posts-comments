@@ -20,6 +20,8 @@ export class PostsPageComponent implements OnInit {
   newTitle:string='';
   newAuthor:string='';
 
+  availableState:any;
+
   constructor(private requests:RequestsService, 
     private socket:SocketService, private state:StateService,
     private router:Router
@@ -35,6 +37,7 @@ export class PostsPageComponent implements OnInit {
   validateLogin():boolean{
     let validationResult = false;
     this.state.state.subscribe(currentState => {
+      this.availableState = currentState;
       if(!currentState.logedIn){
         this.router.navigateByUrl('/login')
         validationResult = false
@@ -60,11 +63,11 @@ export class PostsPageComponent implements OnInit {
       title: this.newTitle,
       author: this.newAuthor
     }
-    this.submitPost(newPost);
+    this.submitPost(newPost, this.availableState.token);
   }
 
-  submitPost(command:CreatePostCommand){
-    this.requests.createPost(command)
+  submitPost(command:CreatePostCommand, token:string){
+    this.requests.createPost(command, token)
     .subscribe()
   }
 
