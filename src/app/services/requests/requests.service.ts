@@ -9,10 +9,15 @@ import { catchError, map, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class RequestsService {
-  GET_ALL_POSTS_URL = 'https://beta-posts-comments.herokuapp.com/bring/all/posts'
+  /*GET_ALL_POSTS_URL = 'https://beta-posts-comments.herokuapp.com/bring/all/posts'
   GET_POST_BY_ID_URL = 'https://beta-posts-comments.herokuapp.com/bring/post/'
   POST_POST_URL = 'https://alpha-posts-comments.herokuapp.com/create/post'
-  POST_COMMENT_URL = 'https://alpha-posts-comments.herokuapp.com/add/comment'
+  POST_COMMENT_URL = 'https://alpha-posts-comments.herokuapp.com/add/comment'*/
+
+  GET_ALL_POSTS_URL = 'http://localhost:8082/bring/all/posts'
+  GET_POST_BY_ID_URL = 'http://localhost:8082/bring/post/'
+  POST_POST_URL = 'http://localhost:8081/create/post'
+  POST_COMMENT_URL = 'http://localhost:8081/add/comment'
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
